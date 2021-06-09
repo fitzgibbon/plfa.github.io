@@ -868,7 +868,8 @@ just apply the previous results which show addition
 is associative and commutative.
 
 ```
--- Your code goes here
++-swap : ∀ (m n p : ℕ) → m + (n + p) ≡ n + (m + p)
++-swap m n p rewrite +-comm m (n + p) | +-assoc n p m | +-comm p m = refl
 ```
 
 
@@ -881,7 +882,9 @@ Show multiplication distributes over addition, that is,
 for all naturals `m`, `n`, and `p`.
 
 ```
--- Your code goes here
+*-dist-+ : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+*-dist-+ zero n p = refl
+*-dist-+ (suc m) n p rewrite *-dist-+ m n p | +-assoc p (m * p) (n * p) = refl
 ```
 
 
@@ -894,7 +897,9 @@ Show multiplication is associative, that is,
 for all naturals `m`, `n`, and `p`.
 
 ```
--- Your code goes here
+*-assoc : ∀ (m n p : ℕ) → (m * n) * p ≡ m * (n * p)
+*-assoc zero n p = refl
+*-assoc (suc m) n p rewrite *-dist-+ n (m * n) p | *-assoc m n p = refl
 ```
 
 
@@ -921,7 +926,9 @@ Show
 for all naturals `n`. Did your proof require induction?
 
 ```
--- Your code goes here
+∸idʳ : ∀ (n : ℕ) → zero ∸ n ≡ zero
+∸idʳ zero = refl
+∸idʳ (suc n) = refl
 ```
 
 
