@@ -81,7 +81,7 @@ successor of two; and so on.
 Write out `7` in longhand.
 
 ```
--- Your code goes here
+seven = (suc (suc (suc (suc (suc (suc (suc zero)))))))
 ```
 
 
@@ -492,7 +492,9 @@ Compute `3 * 4`, writing out your reasoning as a chain of equations, using the e
 (You do not need to step through the evaluation of `+`.)
 
 ```
--- Your code goes here
+_^_ : ℕ → ℕ → ℕ
+x ^ zero = 1
+x ^ suc y = x * (x ^ y)
 ```
 
 
@@ -506,7 +508,8 @@ Define exponentiation, which is given by the following equations:
 Check that `3 ^ 4` is `81`.
 
 ```
--- Your code goes here
+_ : 3 ^ 4 ≡ 81
+_ = refl
 ```
 
 
@@ -571,7 +574,11 @@ _ =
 Compute `5 ∸ 3` and `3 ∸ 5`, writing out your reasoning as a chain of equations.
 
 ```
--- Your code goes here
+_ : 5 ∸ 3 ≡ 2
+_ = refl
+
+_ : 3 ∸ 5 ≡ 0
+_ = refl
 ```
 
 
@@ -918,7 +925,26 @@ represents a positive natural, and represent zero by `⟨⟩ O`.
 Confirm that these both give the correct answer for zero through four.
 
 ```
--- Your code goes here
+inc : Bin → Bin
+inc ⟨⟩ = ⟨⟩ I
+inc (x O) = x I
+inc (x I) = (inc x) O
+
+to : ℕ → Bin
+to zero = ⟨⟩ O
+to (suc n) = inc (to n)
+
+from : Bin → ℕ
+from ⟨⟩ = zero
+from (x O) = 2 * from x
+from (x I) = suc (2 * from x)
+
+_ : to 59 ≡ ((((((⟨⟩ I) I) I) O) I) I)
+_ = refl
+
+_ : from (to 59) ≡ 59
+_ = refl
+
 ```
 
 
