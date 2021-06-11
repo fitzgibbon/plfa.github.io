@@ -555,7 +555,23 @@ transitivity proves `m + p ≤ n + q`, as was to be shown.
 Show that multiplication is monotonic with regard to inequality.
 
 ```
--- Your code goes here
+open import Data.Nat using (_*_)
+
+*-monoʳ-≤ : ∀ (n p q : ℕ) → p ≤ q → n * p ≤ n * q
+*-monoʳ-≤ zero p q p≤q = z≤n
+*-monoʳ-≤ (suc n) p q p≤q = +-mono-≤ p q (n * p) (n * q) p≤q (*-monoʳ-≤ n p q p≤q)
+
+*-monoˡ-≤ : ∀ (m n p : ℕ) → m ≤ n → m * p ≤ n * p
+*-monoˡ-≤ zero n p m≤n = z≤n
+*-monoˡ-≤ (suc zero) zero zero m≤n = z≤n
+*-monoˡ-≤ (suc (suc zero)) zero zero ()
+*-monoˡ-≤ (suc (suc (suc n))) zero zero ()
+*-monoˡ-≤ (suc m) zero (suc zero) ()
+*-monoˡ-≤ (suc m) zero (suc (suc n)) ()
+*-monoˡ-≤ (suc m) (suc n) p m≤n = +-monoʳ-≤ p (m * p) (n * p) (*-monoˡ-≤ m n p (inv-s≤s m≤n))
+
+*-mono-≤ : ∀ (m n p q : ℕ) → m ≤ n → p ≤ q → m * p ≤ n * q
+*-mono-≤ m n p q m≤n p≤q = ≤-trans (*-monoˡ-≤ m n p m≤n) (*-monoʳ-≤ n p q p≤q)
 ```
 
 
