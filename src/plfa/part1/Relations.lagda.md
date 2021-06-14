@@ -618,7 +618,9 @@ exploiting the corresponding properties of inequality.
 Show that strict inequality is transitive.
 
 ```
--- Your code goes here
+<-trans : ∀ {m n p : ℕ} → m < n → n < p → m < p
+<-trans z<s (s<s n<p) = z<s
+<-trans (s<s m<n) (s<s n<p) = s<s (<-trans m<n n<p)
 ```
 
 #### Exercise `trichotomy` (practice) {name=trichotomy}
@@ -636,7 +638,19 @@ similar to that used for totality.
 [negation](/Negation/).)
 
 ```
--- Your code goes here
+data Trichotic (m n : ℕ) : Set where
+  lt : m < n → Trichotic m n
+  eq : m ≡ n → Trichotic m n
+  gt : n < m → Trichotic m n
+
+<-trichotic : ∀ (m n : ℕ) → Trichotic m n
+<-trichotic zero zero = eq refl
+<-trichotic zero (suc _) = lt z<s
+<-trichotic (suc _) zero = gt z<s
+<-trichotic (suc m) (suc n) with <-trichotic m n
+... | lt m<n = lt (s<s m<n)
+... | eq refl = eq refl
+... | gt n<m = gt (s<s n<m)
 ```
 
 #### Exercise `+-mono-<` (practice) {name=plus-mono-less}
