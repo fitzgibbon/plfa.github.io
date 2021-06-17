@@ -659,7 +659,13 @@ Show that addition is monotonic with respect to strict inequality.
 As with inequality, some additional definitions may be required.
 
 ```
--- Your code goes here
++-mono-<ʳ : ∀ (n p q : ℕ) → p < q → n + p < n + q
++-mono-<ʳ zero p q p<q = p<q
++-mono-<ʳ (suc n) p q p<q = s<s (+-mono-<ʳ n p q p<q)
++-mono-<ˡ : ∀ (m n p : ℕ) → m < n → m + p < n + p
++-mono-<ˡ m n p m<n rewrite +-comm m p | +-comm n p = +-mono-<ʳ p m n m<n
++-mono-< : ∀ (m n p q : ℕ) → m < n → p < q → m + p < n + q
++-mono-< m n p q m<n p<q = <-trans (+-mono-<ˡ m n p m<n) (+-mono-<ʳ n p q p<q)
 ```
 
 #### Exercise `≤-iff-<` (recommended) {name=leq-iff-less}
@@ -667,7 +673,13 @@ As with inequality, some additional definitions may be required.
 Show that `suc m ≤ n` implies `m < n`, and conversely.
 
 ```
--- Your code goes here
+≤-→-< : ∀ {m n : ℕ} → suc m ≤ n → m < n
+≤-→-< (s≤s z≤n) = z<s
+≤-→-< (s≤s (s≤s x)) = s<s (≤-→-< (s≤s x))
+
+<-→-< : ∀ {m n : ℕ} → m < n → suc m ≤ n
+<-→-< z<s = s≤s z≤n
+<-→-< (s<s x) = s≤s (<-→-< x)
 ```
 
 #### Exercise `<-trans-revisited` (practice) {name=less-trans-revisited}
@@ -784,7 +796,9 @@ successor of the sum of two even numbers, which is even.
 Show that the sum of two odd numbers is even.
 
 ```
--- Your code goes here
+o+o≡e : ∀ {m n : ℕ} → odd m → odd n → even (m + n)
+o+o≡e {suc x} (suc zero) oddn = suc oddn
+o+o≡e {suc x} (suc (suc x₁)) oddn = suc (suc (o+o≡e x₁ oddn))
 ```
 
 #### Exercise `Bin-predicates` (stretch) {name=Bin-predicates}
