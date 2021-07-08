@@ -439,15 +439,14 @@ open ≲-Reasoning
 
 Show that every isomorphism implies an embedding.
 ```
-postulate
-  ≃-implies-≲ : ∀ {A B : Set}
-    → A ≃ B
-      -----
-    → A ≲ B
+≃-implies-≲ : ∀ {A B : Set}
+  → A ≃ B
+  -----
+  → A ≲ B
 ```
 
 ```
--- Your code goes here
+≃-implies-≲ record { to = to ; from = from ; from∘to = from∘to ; to∘from = to∘from } = record { to = to ; from = from ; from∘to = from∘to }
 ```
 
 #### Exercise `_⇔_` (practice) {name=iff}
@@ -462,7 +461,19 @@ record _⇔_ (A B : Set) : Set where
 Show that equivalence is reflexive, symmetric, and transitive.
 
 ```
--- Your code goes here
+open _⇔_
+
+⇔-refl : ∀ {A : Set} → A ⇔ A
+⇔-refl = record { to = λ z → z ; from = λ z → z }
+
+⇔-sym : ∀ {A B : Set} → A ⇔ B → B ⇔ A
+⇔-sym A⇔B = record { to = from A⇔B ; from = to A⇔B }
+
+⇔-trans : ∀ {A B C : Set} → A ⇔ B → B ⇔ C → A ⇔ C
+⇔-trans A⇔B B⇔C = record
+                    { to = to B⇔C ∘ to A⇔B
+                    ; from = from A⇔B ∘ from B⇔C
+                    }
 ```
 
 #### Exercise `Bin-embedding` (stretch) {name=Bin-embedding}
